@@ -6,7 +6,7 @@ import { ItemModule } from './item/item.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
-    FirestoreModule.forRoot('./firebase.json'), // Path to service account JSON
+    FirestoreModule.forRoot(), // Path to service account JSON
     ItemModule,
   ],
 })
