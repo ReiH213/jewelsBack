@@ -7,6 +7,7 @@ import {
   Put,
   Delete,
   BadRequestException,
+  Query,
 } from '@nestjs/common';
 import { ItemService } from './item.service';
 
@@ -26,8 +27,11 @@ export class ItemController {
   }
 
   @Get()
-  async findAll() {
-    return this.itemService.findAll();
+  async findAll(
+    @Query('minPopularity') minPopularity?: number,
+    @Query('maxPopularity') maxPopularity?: number,
+  ) {
+    return this.itemService.findAll({ minPopularity, maxPopularity });
   }
 
   @Get(':id')

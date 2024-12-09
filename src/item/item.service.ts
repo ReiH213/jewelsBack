@@ -20,8 +20,24 @@ export class ItemService {
     return { id: docRef.id, ...item };
   }
 
-  async findAll() {
-    const snapshot = await this.collection.get();
+  async findAll(filters: { minPopularity?: number; maxPopularity?: number }) {
+    let query = this.collection as FirebaseFirestore.Query<ItemDocument>;
+    if (filters.minPopularity !== undefined) {
+      query = query.where(
+        'popularityScore',
+        '>=',
+        String(filters.minPopularity),
+      );
+    }
+    if (filters.maxPopularity !== undefined) {
+      query = query.where(
+        'popularityScore',
+        '<=',
+        String(filters.maxPopularity),
+      );
+    }
+    const snapshot = await query.get();
+
     return snapshot.docs.map((doc) => doc.data());
   }
 
